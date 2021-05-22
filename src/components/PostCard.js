@@ -1,11 +1,10 @@
 import React, { useContext } from "react";
-import { Button, Card, Image } from "semantic-ui-react";
+import { Card, Image } from "semantic-ui-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/auth";
 import LikeButton from "./LikeButton";
 import DeleteButton from "./DeleteButton";
-import PopUpInformation from "./PopUpInformation";
 import CommentButton from "./CommentButton";
 
 const PostCard = ({ post }) => {

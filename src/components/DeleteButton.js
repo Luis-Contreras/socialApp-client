@@ -4,7 +4,7 @@ import { Button, Icon, Confirm } from "semantic-ui-react";
 import {
   DELETE_COMMENT_MUTATION,
   DELETE_POST_MUTATION,
-  FETCH_POSTS_QUERY,
+  FETCH_POSTS_QUERY
 } from "../graphql";
 import PopUpInformation from "./PopUpInformation";
 
@@ -18,17 +18,20 @@ const DeleteButton = ({ postId, callback, commentId }) => {
       setConfirmOpen(false);
       if (!commentId) {
         const data = proxy.readQuery({
-          query: FETCH_POSTS_QUERY,
+          query: FETCH_POSTS_QUERY
         });
-        data.getPosts = data.getPosts.filter((x) => x.id !== postId);
-        proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+        const newPosts = data.getPosts.filter(x => x.id !== postId);
+        proxy.writeQuery({
+          query: FETCH_POSTS_QUERY,
+          data: { ...data, getPosts: newPosts }
+        });
       }
       if (callback) callback();
     },
     variables: {
       postId,
-      commentId,
-    },
+      commentId
+    }
   });
 
   return (

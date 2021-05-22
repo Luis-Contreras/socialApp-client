@@ -8,25 +8,27 @@ import ListFormErros from "../components/ListFormErrors";
 
 const PostForm = () => {
   const { values, onChange, onSubmit } = useForm(createPostCallBack, {
-    body: "",
+    body: ""
   });
 
   const [createPost, { error }] = useMutation(CREATE_POST_MUTATION, {
     variables: values,
     update(proxy, result) {
       const data = proxy.readQuery({
-        query: FETCH_POSTS_QUERY,
+        query: FETCH_POSTS_QUERY
       });
-      data.getPosts = [result.data.createPost, ...data.getPosts];
-      proxy.writeQuery({ query: FETCH_POSTS_QUERY, data });
+      const newPosts = [result.data.createPost, ...data.getPosts];
+      proxy.writeQuery({
+        query: FETCH_POSTS_QUERY,
+        data: { ...data, getPosts: newPosts }
+      });
       values.body = "";
-    },
+    }
   });
 
   function createPostCallBack() {
     createPost();
   }
-
   return (
     <>
       <Form onSubmit={onSubmit}>
